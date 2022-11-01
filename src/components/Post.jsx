@@ -1,21 +1,37 @@
+import { format, formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
+
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 import styles from "./Post.module.css";
 
-export function Post() {
+export function Post({ author, content, publishedAt }) {
+  const publishedDateFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    {
+      locale: ptBR,
+    }
+  );
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  })
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://github.com/caiolucasns.png" />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Caio Lucas</strong>
-            <span>Web developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="26 de Outubro às 08:00h" dateTime="2022-10-26 08:00:00">
-          Publicado há 1h
+        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
@@ -26,21 +42,18 @@ export function Post() {
           no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
         </p>
         <p>
-          👉{' '}<a href="">jane.design/doctorcare</a>
+          👉 <a href="">jane.design/doctorcare</a>
         </p>
         <p>
-          <a href="">#novoprojeto</a>{' '}
-          <a href="">#nlw</a>{' '}
-          <a href="">#rocketseat</a>{' '}
+          <a href="">#novoprojeto</a> <a href="">#nlw</a>{" "}
+          <a href="">#rocketseat</a>{" "}
         </p>
       </div>
 
       <form className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea 
-          placeholder="deixe um comentário"
-        />
+        <textarea placeholder="deixe um comentário" />
         <footer>
           <button type="submit">Publicar</button>
         </footer>
