@@ -36,18 +36,18 @@ export function Post({ author, content, publishedAt }) {
       </header>
 
       <div className={styles.content}>
-        <p>Fala galeraa 👋</p>
-        <p>
-          Acabei de subir mais um projeto no meu portifa. É um projeto que fiz
-          no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
-        </p>
-        <p>
-          👉 <a href="">jane.design/doctorcare</a>
-        </p>
-        <p>
-          <a href="">#novoprojeto</a> <a href="">#nlw</a>{" "}
-          <a href="">#rocketseat</a>{" "}
-        </p>
+       {
+        content.map(line => {
+          switch(line.type) {
+            case 'paragraph':
+              return <p>{line.content}</p>;
+            case 'link':
+              return <p><a href='#'>{line.content}</a></p>;
+            default:
+              break
+          }
+        })
+       }
       </div>
 
       <form className={styles.commentForm}>
